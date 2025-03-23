@@ -16,6 +16,7 @@ pygame.mixer.init()
 
 # Import game components
 from src.ui.menu import MainMenu
+from src.ui.settings_menu import SettingsMenu
 from src.game.state import GameState
 
 def main():
@@ -23,8 +24,9 @@ def main():
     # Set up the game state
     game_state = GameState()
     
-    # Start with the main menu
-    menu = MainMenu()
+    # Initialize UI components
+    main_menu = MainMenu()
+    settings_menu = SettingsMenu()
     
     # Main game loop
     while True:
@@ -34,7 +36,7 @@ def main():
         # Handle different game states
         if current_state == "main_menu":
             # Run the main menu
-            next_state = menu.run()
+            next_state = main_menu.run()
             
             # Handle menu selection
             if next_state == "new_game":
@@ -52,10 +54,10 @@ def main():
             game_state.change_state("main_menu")
             
         elif current_state == "settings":
-            # This would show the settings menu
-            # For now, just go back to the main menu
-            print("Settings menu would show here")
-            game_state.change_state("main_menu")
+            # Run the settings menu
+            next_state = settings_menu.run()
+            if next_state == "main_menu":
+                game_state.change_state("main_menu")
             
         # Check for quit
         for event in pygame.event.get():
